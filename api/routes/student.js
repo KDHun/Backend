@@ -18,10 +18,14 @@ router.get("/", async (req, res) => {
 });
 router.get("/:id", async (req, res) => {
     try{
+        
         const {id} = req.params;
         console.log(id);
         const student_info = await getStudent(id);
+        if(student_info)
         res.json(student_info);
+        else
+        res.sendStatus(404);
     } catch(err) {
         res.sendStatus(500);
         console.error(err);
