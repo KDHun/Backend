@@ -12,9 +12,10 @@ async function getClassList() {
 }
 async function getClass(class_id) {
   try {
-    const data = await pool.query('SELECT * FROM "Class" WHERE class_id = $1;', [
-      class_id,
-    ]);
+    const data = await pool.query(
+      'SELECT * FROM "Class" WHERE class_id = $1;',
+      [class_id]
+    );
     return data.rows[0];
   } catch (err) {
     throw err;
@@ -29,30 +30,37 @@ async function getClassQuiz(roll_number, class_id) {
         WHERE (roll_number, class_id) = ($1, $2)`,
       [Number(roll_number), Number(class_id)]
     );
+    return data.rows;
   } catch (err) {
     throw err;
   }
 }
 async function getClassAssignment(roll_number, class_id) {
-    try {
-        const data = await pool.query(
-            `SELECT class_id, "Assign".assignment_id, mark, time, total_mark, description, date
+  try {
+    const data = await pool.query(
+      `SELECT class_id, "Assign".assignment_id, mark, time, total_mark, description, date
             from "Assign" JOIN "Assignment"
             ON "Assign".assignment_id = "Assignment".assignment_id
             WHERE (roll_number, class_id) = ($1, $2);`,
-        [Number(roll_number), Number(class_id)]
-        )        
-    } catch (error) {
-       console.error(error); 
-    }
+      [Number(roll_number), Number(class_id)]
+    );
+    return data.rows;
+  } catch (error) {
+    console.error(error);
+  }
 }
 async function getClassMaterial(class_id) {
+  try {
     const data = await pool.query(
-        `SELECT date, type, link, description
+      `SELECT date, type, link, description
         FROM "Material" 
         WHERE class_id = $1`,
-        [Number(class_id)]
-    )
+      [Number(class_id)]
+    );
+    return data.rows;
+  } catch (error) {
+    throw error;
+  }
 }
 async function getMyClassList(roll_number) {
   try {
@@ -81,6 +89,79 @@ async function addClass(data) {
     throw err;
   }
 }
+async function addQuiz(data) {
+  try {
+    const {
+      quiz_id,
+      start_time,
+      end_time,
+      duration,
+      deadline,
+      plateform,
+      link,
+      total_mark,
+      description,
+    } = data;
+    const result = await pool.query(
+      `INSERT INTO "Quiz" VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
+      [
+        quiz_id,
+        start_time,
+        end_time,
+        duration,
+        deadline,
+        plateform,
+        link,
+        total_mark,
+        description,
+        new Date().toISOString().slice(0, 10),
+      ]
+    );
+    return result;
+  } catch (error) {
+    throw error;
+  }
+}
+async function addMaterial(data) {
+  try {
+    const { class_id, type, link, description } = data
+      data;
+    const result = await pool.query(
+      `INSERT INTO "Material" VALUES($1, $2, $3, $4, $5, $6, $7)`,
+      [
+        class_id,
+        new Date().toISOString().slice(0, 10),
+        type,
+        link,
+        description,
+      ]
+    );
+    return result;
+  } catch (error) {
+    throw error;
+  }
+}
+async function addAssignment(data) {
+  try {
+    const { assignment_id, class_id, deadline, link, total_mark, description } =
+      data;
+    const result = await pool.query(
+      `INSERT INTO "Assignment" VALUES($1, $2, $3, $4, $5, $6, $7)`,
+      [
+        assignment_id,
+        class_id,
+        deadline,
+        link,
+        total_mark,
+        description,
+        new Date().toISOString().slice(0, 10),
+      ]
+    );
+    return result;
+  } catch (error) {
+    throw error;
+  }
+}
 module.exports = {
   getClassList,
   addClass,
@@ -88,6 +169,5 @@ module.exports = {
   getMyClassList,
   getClassMaterial,
   getClassQuiz,
-  getClassAssignment
+  getClassAssignment,
 };
-
