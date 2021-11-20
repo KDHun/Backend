@@ -43,7 +43,7 @@ router.post("/my/material", authRoutes("instructor"), async (req, res) => {
         res.sendStatus(400);
     }
 })
-router.post("/quiz", authRoutes("instructor"), (req, res) => {
+router.post("/quiz", authRoutes("instructor"), async (req, res) => {
     try {
         const { quiz } = req.body;
         const result = await addAssignment(quiz);
