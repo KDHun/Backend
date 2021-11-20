@@ -9,7 +9,7 @@ router.post("/login", async (req, res) => {
   if (!isNaN(Number(name))) {
     const studentData = await getStudent(name);
     const instructorData = await getInstructor(name);
-    const pwd = studentData.DOB.toISOString().slice(0, 10);
+    const pwd = studentData?.DOB.toISOString().slice(0, 10);
     const pwd1 = instructorData?.DOB.toISOString().slice(0, 10);
     if (pwd === DOB) {
       res.status(200).json({
@@ -27,6 +27,8 @@ router.post("/login", async (req, res) => {
           role: 'instructor'
         }, process.env.SECRET)
       });
+    } else {
+      res.sendStatus(401);
     }
   } else {
     const adminData = await getAdmin(name);

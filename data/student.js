@@ -20,7 +20,8 @@ async function getStudent(roll_number) {
       'SELECT semester, value FROM "SPI" WHERE roll_number = $1',
       [Number(roll_number)]
     );
-    data.rows[0].spi = spi.rows;
+    if(data.rows.length >= 1)
+      data.rows[0].spi = spi.rows;
     return data.rows[0];
   } catch (err) {
     throw err;
