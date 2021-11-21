@@ -7,7 +7,7 @@ async function getAdmin(name) {
   return data.rows[0];
 }
 async function getAdminList() {
-  const data = await pool.query('SELECT * FROM "Admin" ');
+  const data = await pool.query('SELECT * FROM "Admin"');
   return data.rows;
 }
 async function addAdmin(data) {
@@ -25,8 +25,8 @@ async function addAdmin(data) {
     joining_date,
   } = data;
   try {
-    const newStudent = await pool.query(
-      'INSERT INTO "Instructor" VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *',
+    const newAdmin = await pool.query(
+      'INSERT INTO "Admin" VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *',
       [
         user_name,
         name,
