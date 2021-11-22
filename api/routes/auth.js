@@ -32,8 +32,7 @@ router.post("/login", async (req, res) => {
     }
   } else {
     const adminData = await getAdmin(name);
-    const pwd = adminData.DOB.toISOString().slice(0, 10);
-    console.log({ pwd, DOB });
+    const pwd = adminData?.DOB.toISOString().slice(0, 10);
     if (pwd === DOB) {
       res.status(200).json({
         message: "You are authenticated",
