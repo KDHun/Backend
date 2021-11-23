@@ -29,11 +29,10 @@ router.get("/:id", async (req, res) => {
 })
 router.post('/', authRoutes("admin"), async (req, res) => {
     try{
-        console.log(addStudent);
         const result = await addInstructor(req.body);
         res.json(result);
     }catch(err) {
-        res.sendStatus(400).json(err);
+        res.sendStatus(400);
         console.error(err);
     }
 });

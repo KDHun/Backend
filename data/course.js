@@ -24,7 +24,7 @@ async function getCourse(course_code) {
 async function getMyCourseList(roll_number) {
   try {
     const data = await pool.query(
-      `SELECT "Enroll".course_code, grade, date, name, credit, type
+      `SELECT "Enroll".course_code, grade, date, name, credit, type, lab, lecture
       FROM "Enroll" JOIN "Course"
       ON "Enroll".course_code = "Course".course_code
       WHERE roll_number = $1`,
