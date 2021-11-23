@@ -9,7 +9,7 @@ const {
 const authRoutes = require("../middlewares/authRoutes");
 const router = express.Router();
 
-router.get('/my',authRoutes('student'), async (req, res) => {
+router.get('/my', async (req, res) => {
     try {
         const data = await getMyCommittee(req.user.name);
         res.json(data);

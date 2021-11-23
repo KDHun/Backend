@@ -25,7 +25,7 @@ router.get("/:id", async (req, res) => {
         console.error(err);
     }
 })
-router.get('/',  authRoutes("student"), async (req, res) => {
+router.get('/',  async (req, res) => {
     try{
         const exam_info = await getExaminfo();
         if(exam_info)
@@ -37,7 +37,7 @@ router.get('/',  authRoutes("student"), async (req, res) => {
         console.error(err);
     }
 })
-router.post('/', authRoutes("student"), async (req, res) => {
+router.post('/', authRoutes("admin"), async (req, res) => {
     try{
         console.log(addStudent);
         const result = await addExam(req.body);

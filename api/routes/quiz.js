@@ -1,26 +1,15 @@
 const express = require("express");
 const {
-  getCourse,
-  getCourseList,
-  addCourse,
-  getMyCourseList,
-} = require("../../data/course");
+  getQuiz,
+  getQuizList,
+  addQuiz
+} = require("../../data/quiz");
 const authRoutes = require("../middlewares/authRoutes");
 const router = express.Router();
 
-router.get("/my",  async (req, res) => {
-  try {
-    const data = await getMyCourseList(req.user.name);
-    res.json(data);
-  } catch (error) {
-    console.error(error);
-    res.sendStatus(500);
-  }
-});
-
 router.get("/", async (req, res) => {
   try {
-    const result = await getCourseList();
+    const result = await getQuizList();
     res.json(result);
   } catch (err) {
     res.sendStatus(500);
@@ -31,17 +20,17 @@ router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     console.log(id);
-    const cours_info = await getCourse(id);
+    const cours_info = await getQuiz(id);
     res.json(cours_info);
   } catch (err) {
     res.sendStatus(500);
     console.error(err);
   }
 });
-router.post("/", authRoutes("admin"), async (req, res) => {
+router.post("/", authRoutes("instructor"), async (req, res) => {
   try {
-    console.log(addquiz);
-    const result = await addCourse(req.body);
+    console.log(addQuiz);
+    const result = await addQuiz(req.body);
   } catch (err) {
     res.sendStatus(400).json(err);
     console.error(err);
