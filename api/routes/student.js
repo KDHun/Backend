@@ -35,6 +35,7 @@ router.post('/', authRoutes("admin"), async (req, res) => {
     try{
         console.log(addStudent);
         const result = await addStudent(req.body);
+        res.sendStatus(200);
     }catch(err) {
         res.status(400).json(err);
         console.error(err);

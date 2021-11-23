@@ -41,7 +41,6 @@ async function addInstructor(data) {
         id,
         name,
         DOB,
-        phone_number,
         email,
         address,
         gender,
@@ -49,6 +48,7 @@ async function addInstructor(data) {
         weight,
         health_condition,
         joining_date,
+        phone_number
       ]
     );
     return newStudent.rows[0];

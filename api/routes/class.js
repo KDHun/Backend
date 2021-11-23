@@ -14,7 +14,7 @@ const {
 const authRoutes = require("../middlewares/authRoutes");
 const router = express.Router();
 
-router.get("/my",  async (req, res) => {
+router.get("/my", authRoutes("student"), async (req, res) => {
   try {
     const data = await getMyClassList(req.user.name);
     res.json(data);
@@ -53,7 +53,7 @@ router.post("/quiz", authRoutes("instructor"), async (req, res) => {
         res.sendStatus(400);
     }
 })
-router.get("/my/:id",  async (req, res) => {
+router.get("/my/:id",  authRoutes("student"), async (req, res) => {
     try {
         const { id } = req.params;
         const data = await getClass(id);

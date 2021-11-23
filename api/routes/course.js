@@ -8,7 +8,7 @@ const {
 const authRoutes = require("../middlewares/authRoutes");
 const router = express.Router();
 
-router.get("/my",  async (req, res) => {
+router.get("/my",  authRoutes("student"),  async (req, res) => {
   try {
     const data = await getMyCourseList(req.user.name);
     res.json(data);
@@ -40,11 +40,8 @@ router.get("/:id", async (req, res) => {
 });
 router.post("/", authRoutes("admin"), async (req, res) => {
   try {
-<<<<<<< HEAD
-    console.log(addquiz);
-=======
->>>>>>> d45d2ab0df9cbb198f578cdad818145a219e03ad
     const result = await addCourse(req.body);
+    res.sendStatus(200);
   } catch (err) {
     res.sendStatus(400);
     console.error(err);

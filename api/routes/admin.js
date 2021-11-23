@@ -6,16 +6,7 @@ const {
 } = require("../../data/admin");
 const authRoutes = require('../middlewares/authRoutes')
 const router = express.Router();
-// router.get("/", authRoutes("admin"), async (req, res) => {
-//     try{
-//         const result = await getAdminList();
-//         res.json(result);
-//     } catch(err) {
-//         res.sendStatus(500);
-//         console.error(err);
-//     }
-// });
-router.get("/",  async (req, res) => {
+router.get("/", authRoutes("admin"), async (req, res) => {
     try{
         const result = await getAdminList();
         res.json(result);
@@ -24,6 +15,7 @@ router.get("/",  async (req, res) => {
         console.error(err);
     }
 });
+
 router.get("/:id", async (req, res) => {
     try{
         const {id} = req.params;
