@@ -40,10 +40,13 @@ router.get("/:id", async (req, res) => {
 });
 router.post("/", authRoutes("admin"), async (req, res) => {
   try {
+<<<<<<< HEAD
     console.log(addquiz);
+=======
+>>>>>>> d45d2ab0df9cbb198f578cdad818145a219e03ad
     const result = await addCourse(req.body);
   } catch (err) {
-    res.sendStatus(400).json(err);
+    res.sendStatus(400);
     console.error(err);
   }
 });
