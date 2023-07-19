@@ -5,13 +5,15 @@ const { getAdmin } = require("../../data/admin");
 const jwt = require('jsonwebtoken');
 
 router.post("/login", async (req, res) => {
-  const { name, DOB } = req.body;
+  const { name, phone_number } = req.body;
   if (!isNaN(Number(name))) {
-    const studentData = await getStudent(name);
+    const studentData = await getStudent(name); 
     const instructorData = await getInstructor(name);
-    const pwd = studentData?.DOB.toISOString().slice(0, 10);
-    const pwd1 = instructorData?.DOB.toISOString().slice(0, 10);
-    if (pwd === DOB) {
+    console.log(studentData);
+    const pwd = studentData?.phone_number;
+    const pwd1 = instructorData?.phone_number;
+    console.log(pwd,pwd1,phone_number);
+    if (pwd === phone_number) {
       res.status(200).json({
         message: "You are authenticated",
         token: jwt.sign({
@@ -19,7 +21,7 @@ router.post("/login", async (req, res) => {
           role: 'student'
         }, process.env.SECRET)
       });
-    } else if (pwd1 === DOB) {
+    } else if (pwd1 === phone_number) {
       res.status(200).json({
         message: "You are authenticated",
         token: jwt.sign({
@@ -32,8 +34,8 @@ router.post("/login", async (req, res) => {
     }
   } else {
     const adminData = await getAdmin(name);
-    const pwd = adminData?.DOB.toISOString().slice(0, 10);
-    if (pwd === DOB) {
+    const pwd = adminData?.phone_number;
+    if (pwd === phone_number) {
       res.status(200).json({
         message: "You are authenticated",
         token: jwt.sign({
